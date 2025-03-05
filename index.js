@@ -5,8 +5,9 @@ const fs = require("fs");
 const url = require("url");
 
 const server = http.createServer((req, res) => {
-    const log = `${Date.now()} : ${new Date()} : ${req.url} : New Request Received \n`;
+    console.log(req)
     const myUrl = url.parse(req.url,true);
+    const log = `${Date.now()} : : ${req.httpVersion} : ${req.method} : ${req.url} : New Request Received \n`;
     console.log(myUrl);
     fs.appendFile("app.log", log, (err, result) => {
 
