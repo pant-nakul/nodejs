@@ -4,10 +4,7 @@ const MONGO_URI = "mongodb://127.0.0.1:27017/nodejs"; // Replace with your DB UR
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(MONGO_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(MONGO_URI);
         console.log("✅ MongoDB Connected Successfully");
     } catch (error) {
         console.error("❌ Mongo Connection Error:", error);
