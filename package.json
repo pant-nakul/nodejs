@@ -27,6 +27,7 @@
     "express": "^4.21.2",
     "graphql": "^16.10.0",
     "mongoose": "^8.12.1",
+    "nanoid": "^5.1.2",
     "punycode": "^2.3.1"
   }
 }
