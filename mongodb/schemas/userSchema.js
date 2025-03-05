@@ -22,6 +22,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     }
-});
+}, {timestamps: true});
 
 module.exports = userSchema; // ✅ Export only the schema
