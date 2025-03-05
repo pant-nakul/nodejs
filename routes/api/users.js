@@ -1,7 +1,7 @@
 const users = require("../../mock.json");
 const fs = require("fs");
 const router = require("express").Router();
-const models = require("../../mongodb/models");
+const models = require("../../models");
 
 console.log(models)
 const {User} = models;

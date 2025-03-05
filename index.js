@@ -6,13 +6,13 @@ const path = require("path");
 const { ApolloServer } = require("apollo-server-express");
 const typeDefs = require("./graphql/typeDefs");
 const { resolvers } = require("./graphql/resolvers");
-const connectDB = require("./config/mongodb"); // ✅ Import MongoDB Configuration
+const connectMongoDB = require("./config/mongodb"); // ✅ Import MongoDB Configuration
 
 const app = express();
 const port = 8000;
 
 // Connect to MongoDB
-connectDB(); // ✅ Call MongoDB connection function
+connectMongoDB(); // ✅ Call MongoDB connection function
 
 // Middleware
 app.use('/static', express.static(path.join(__dirname, 'public')));
