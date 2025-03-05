@@ -14,13 +14,10 @@ app.use(express.urlencoded({ extended: true }));
 
 //Middleware  - Order is important
 app.use((req,res,next) =>{
-    console.log("Hello from Middleware 1");
-    next()
-})
-
-app.use((req,res,next) =>{
-    console.log("Hello from Middleware 2");
-    next()
+    const log = `${Date.now()} - ${req.method} - ${req.path} \n`;
+    fs.appendFile("./app.log", log, (err,data)=>{
+        next();
+    });
 })
 
 app.get("/", (req, res) => {
