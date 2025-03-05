@@ -15,6 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 //Middleware  - Order is important
 app.use((req,res,next) =>{
     const log = `${Date.now()} - ${req.method} - ${req.path} \n`;
+    //always add X to custom headers
+    res.setHeader("X-server-type", "Node-Server");
+    res.setHeader("X-purpose", "Tutorials");
     fs.appendFile("./app.log", log, (err,data)=>{
         next();
     });
