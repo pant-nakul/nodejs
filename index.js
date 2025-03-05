@@ -2,11 +2,15 @@ console.log("Starting node server");
 
 const express = require("express");
 
+const fs = require("fs");
+
 const app = express();
 
 const port = 8000;
 
 const users = require("./mock.json");
+
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
     res.send("Hello from Express Homepage")
@@ -25,20 +29,38 @@ app.get("/api/users", (req, res) => {
     res.json(users);
 })
 
+app.post("/api/users",(req, res) => {
+    const body = req.body;
+    body.id = users.length + 1;
+    users.push(body);
+    fs.writeFile("./mock.json", JSON.stringify(users), (err,data) => {
+        res.json(body)
+    })
+})
+
 app.route("/api/users/:id")
     .get((req, res) => {
         const id = Number(req.params.id)
         res.json(users.find(user => user.id === id))
     })
-    .post((req, res) => {
-        console.log(req.body)
-        res.json("pending")
-    })
     .patch((req, res) => {
-        console.log(req.body)
-        res.json("pending")
+        const id = Number(req.params.id)
+        const body = req.body;
+        body.id = id;
+        let allUsersExcept = users.filter(user => user.id !== id);
+        allUsersExcept.push(body);
+        fs.writeFile("./mock.json", JSON.stringify(allUsersExcept), (err,data) => {
+            res.json(body)
+        })
     })
     .delete((req, res) => {
-        console.log(req.body)
-        res.json("pending")
+        const id = Number(req.params.id)
+        let allUsersExcept = users.filter(user => user.id !== id);
+        fs.writeFile("./mock.json", JSON.stringify(allUsersExcept), (err,data) => {
+            res.json({status: "success", users: allUsersExcept})
+        })
     })
+
+app.listen(port, () => {
+    console.log(`Server started on port ${port}`)
+})
