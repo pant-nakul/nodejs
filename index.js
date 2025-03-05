@@ -10,6 +10,9 @@ const port = 8000;
 
 const users = require("./mock.json");
 
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))
+
 app.use(express.urlencoded({ extended: true }));
 
 //Middleware  - Order is important
