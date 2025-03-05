@@ -4,7 +4,7 @@ const http = require("http");
 const fs = require("fs");
 const url = require("url");
 
-const server = http.createServer((req, res) => {
+const requestHandler = (req, res) => {
     const parsedUrl = url.parse(req.url,true);
     const log = `${Date.now()} : : ${req.httpVersion} : ${req.method} : ${req.url} : New Request Received \n`;
     fs.appendFile("app.log", log, (err, result) => {
@@ -21,7 +21,9 @@ const server = http.createServer((req, res) => {
                 res.end("404! Not Found");
         }
     })
-});
+}
+
+const server = http.createServer(requestHandler);
 
 server.listen("8000", () => {
     console.log("Server is running!");
