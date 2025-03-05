@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
 })
 
 app.get("/about", (req, res) => {
-    res.send("Hello from Express About Page")
+    res.send(`Hello ${req.query?.name || "Nakul"} , your age is ${req.query.age || 21}`)
 })
 
 const server = http.createServer(app);
