@@ -11,14 +11,12 @@ const server = http.createServer((req, res) => {
             case "/":
                 res.end("Home Page");
                 break;
-            case "/nakul":
-                res.end("I am Nakul");
+            case "/nakul/ashish":
+                res.end("I am Nakul Ashish Pant");
                 break;
             default:
                 res.end("404! Not Found");
         }
-
-
     })
 });
 
