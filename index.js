@@ -12,6 +12,8 @@ const users = require("./mock.json");
 
 const path = require('path')
 
+const globalRoutes = require("./routes/global");
+
 const apiRoutes = require("./routes")
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
@@ -29,16 +31,11 @@ app.use((req,res,next) =>{
     });
 })
 
-app.get("/", (req, res) => {
-    res.send("Hello from Express Homepage")
-})
 
-app.get("/about", (req, res) => {
-    res.send(`Hello ${req.query?.name || "Nakul"} , your age is ${req.query.age || 21}`)
-})
+//App Routes
+app.use("/", globalRoutes)
 
-
-
+//API Routes
 app.use("/api", apiRoutes )
 
 app.listen(port, () => {

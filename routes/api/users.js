@@ -1,4 +1,4 @@
-const users = require("../mock.json");
+const users = require("../../mock.json");
 const fs = require("fs");
 const router = require("express").Router();
 
