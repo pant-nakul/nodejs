@@ -25,14 +25,14 @@ app.get("/api/users", (req, res) => {
     res.json(users);
 })
 
-app.get("/api/users/:id", (req, res) => {
-    const id = Number(req.params.id)
-    res.json(users.find(user => user.id === id))
-})
-
 app.post("/api/users", (req, res) => {
     console.log(req.body)
     res.json("pending")
+})
+
+app.get("/api/users/:id", (req, res) => {
+    const id = Number(req.params.id)
+    res.json(users.find(user => user.id === id))
 })
 
 app.patch("/api/users/:id", (req, res) => {
