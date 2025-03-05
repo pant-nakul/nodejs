@@ -6,18 +6,18 @@ const models = require("../../mongodb/models");
 console.log(models)
 const {User} = models;
 
-router.get("/", async (req, res) => {
-    res.send(await User.find());
-})
-
-router.post("/",async (req, res) => {
-    const body = req.body;
-    if(!body || !body.first_name || !body.last_name || !body.gender || !body.email || !body.job_title){
-        return res.status(400).send("Please enter all fields")
-    }
-    const user = await User.create(body);
-    res.status(201).json(user);
-})
+router.route("/")
+    .get(async (req, res) => {
+        res.send(await User.find());
+    })
+    .post(async (req, res) => {
+        const body = req.body;
+        if(!body || !body.first_name || !body.last_name || !body.gender || !body.email || !body.job_title){
+            return res.status(400).send("Please enter all fields")
+        }
+        const user = await User.create(body);
+        res.status(201).json(user);
+    })
 
 router.route("/:id")
     .get(async (req, res) => {
