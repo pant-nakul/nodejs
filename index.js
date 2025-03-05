@@ -12,6 +12,17 @@ const users = require("./mock.json");
 
 app.use(express.urlencoded({ extended: true }));
 
+//Middleware  - Order is important
+app.use((req,res,next) =>{
+    console.log("Hello from Middleware 1");
+    next()
+})
+
+app.use((req,res,next) =>{
+    console.log("Hello from Middleware 2");
+    next()
+})
+
 app.get("/", (req, res) => {
     res.send("Hello from Express Homepage")
 })
