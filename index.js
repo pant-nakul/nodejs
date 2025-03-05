@@ -16,6 +16,10 @@ const globalRoutes = require("./routes/global");
 
 const apiRoutes = require("./routes")
 
+const { ApolloServer } = require('apollo-server-express');
+const typeDefs = require("./graphql/typeDefs");
+const {resolvers} = require("./graphql/resolvers");
+
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +42,21 @@ app.use("/", globalRoutes)
 //API Routes
 app.use("/api", apiRoutes )
 
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`)
-})
+// ✅ Properly initialize Apollo Server
+async function startServer() {
+    const server = new ApolloServer({
+        typeDefs,
+        resolvers,
+    });
+
+    await server.start(); // 🔹 Must start before `applyMiddleware`
+    server.applyMiddleware({ app, path: "/graphql" });
+
+    app.listen(port, () => {
+        console.log(`🚀 Server started on port ${port}. Visit http://localhost:${port}`);
+        console.log(`🎯 GraphQL API available at http://localhost:${port}/graphql`);
+    });
+}
+
+// Start the server
+startServer().catch(err => console.error("Error starting server:", err));
