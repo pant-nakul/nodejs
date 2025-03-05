@@ -1,29 +1,19 @@
 console.log("Starting node server");
 
 const http = require("http");
-const fs = require("fs");
-const url = require("url");
+const express = require("express");
 
-const requestHandler = (req, res) => {
-    const parsedUrl = url.parse(req.url,true);
-    const log = `${Date.now()} : : ${req.httpVersion} : ${req.method} : ${req.url} : New Request Received \n`;
-    fs.appendFile("app.log", log, (err, result) => {
+const app = express();
 
-        switch (parsedUrl.pathname) {
-            case "/":
-                res.end("Home Page");
-                break;
-            case "/about":
-                const username = parsedUrl.query?.name || "Ashish";
-                res.end(`My Name is ${username}`);
-                break;
-            default:
-                res.end("404! Not Found");
-        }
-    })
-}
+app.get("/", (req, res) => {
+    res.send("Hello from Express Homepage")
+})
 
-const server = http.createServer(requestHandler);
+app.get("/about", (req, res) => {
+    res.send("Hello from Express About Page")
+})
+
+const server = http.createServer(app);
 
 server.listen("8000", () => {
     console.log("Server is running!");
