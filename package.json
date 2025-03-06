@@ -31,6 +31,7 @@
     "express": "^4.21.2",
     "express-handlebars": "^8.0.1",
     "graphql": "^16.10.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.1",
     "nanoid": "^5.1.2",
     "punycode": "^2.3.1",

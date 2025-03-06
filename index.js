@@ -21,7 +21,7 @@ require("dotenv").config({
 
 const port = process.env.PORT || 3000;
 // Connect to MongoDB
-connectMongoDB(); // ✅ Call MongoDB connection function
+connectMongoDB();
 
 // Middleware
 app.use('/static', express.static(path.join(__dirname, 'public')));
