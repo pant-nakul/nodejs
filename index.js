@@ -12,6 +12,8 @@ const app = express();
 const exphbs = require("express-handlebars");
 const Url = require("./models/Url");
 const hbsHelpers = require("./views/hbsHelpers");
+const cookieParser = require("cookie-parser");
+const {restrictToLoggedInUsersOnly} = require("./middlewares/auth");
 
 require("dotenv").config({
     path: `.env.${process.env.NODE_ENV || "dev"}`,
@@ -24,6 +26,7 @@ connectMongoDB(); // ✅ Call MongoDB connection function
 // Middleware
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(logRequests("app.log") );
 // Configure Handlebars as the templating engine

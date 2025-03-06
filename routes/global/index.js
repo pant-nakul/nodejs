@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const Url = require("../../models/Url");
 const User = require("../../models/User");
-
+const {v4: uuidv4} = require("uuid");
+const{setUser,getUser} = require("../../services/auth")
 router.get("/", async (req, res) => {
     const urls = await Url.find({}).lean()
     res.render("home", {urls: urls});
@@ -38,14 +39,16 @@ router.post("/signupUser", async (req, res) => {
 router.get("/login",  (req, res) => {
     res.render("login");
 })
+
 router.post("/loginUser", async (req, res) => {
     const body = req.body;
-    console.log(body);
     const user = await User.findOne({email: body.email, password: body.password}).lean()
-    console.log(user);
     if(!user){
         res.render("login", {msg: {error: "Bad Credentials!"}});
     } else {
+        const sessionId = uuidv4();
+        setUser(sessionId, user);
+        res.cookie("uid", sessionId);
         res.redirect("/", )
     }
 
