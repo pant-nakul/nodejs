@@ -10,6 +10,7 @@ const connectMongoDB = require("./config/mongodb"); // ✅ Import MongoDB Config
 const {logRequests} = require("./middlewares")
 const app = express();
 const port = 8000;
+const Url = require("./models/Url");
 
 // Connect to MongoDB
 connectMongoDB(); // ✅ Call MongoDB connection function
@@ -18,10 +19,18 @@ connectMongoDB(); // ✅ Call MongoDB connection function
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(logRequests("app.log") );
+app.use(express.json() );
 
 // App Routes
 app.use("/", require("./routes/global"));
 app.use("/api", require("./routes"));
+
+app.get("/:shortId", async (req, res) => {
+    const shortId = req.params.shortId;
+    const url = await Url.findOneAndUpdate({shortId},
+        {$push: {visitHistory : {timestamp : Date.now()}}});
+    res.redirect(url.redirectUrl);
+})
 
 // Initialize Apollo Server
 async function startServer() {
@@ -31,7 +40,7 @@ async function startServer() {
     server.applyMiddleware({ app, path: "/graphql" });
 
     app.listen(port, () => {
-        console.log(`🚀 Server started on port ${port}`);
+        console.log(`🚀 Server started on port ${port}. Visit: http://localhost:${port}`);
         console.log(`🎯 GraphQL API available at http://localhost:${port}/graphql`);
     });
 }
