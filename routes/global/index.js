@@ -27,7 +27,7 @@ router.get("/signup", (req, res) => {
 router.post("/signupUser", async (req, res) => {
     const body = req.body;
     if (!body || !body.first_name || !body.last_name || !body.gender || !body.email || !body.job_title) {
-        res.render("signup", {msg: {error: "User Not Created Successfully! Required Fields Missing!"}});
+        res.render("signup", {dummy: body , msg: {error: "User Not Created Successfully! Required Fields Missing!"}});
     } else{
         const user = await User.create(body);
         res.render("signup", {msg: {success: "User Created Successfully!!!"}});
@@ -35,8 +35,20 @@ router.post("/signupUser", async (req, res) => {
     })
 
 
-router.get("/login", (req, res) => {
+router.get("/login",  (req, res) => {
     res.render("login");
+})
+router.post("/loginUser", async (req, res) => {
+    const body = req.body;
+    console.log(body);
+    const user = await User.findOne({email: body.email, password: body.password}).lean()
+    console.log(user);
+    if(!user){
+        res.render("login", {msg: {error: "Bad Credentials!"}});
+    } else {
+        res.redirect("/", )
+    }
+
 })
 
 module.exports = router;
