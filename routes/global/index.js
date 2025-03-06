@@ -1,9 +1,10 @@
 const router = require("express").Router();
 const Url = require("../../models/Url");
+const User = require("../../models/User");
 
 router.get("/", async (req, res) => {
-    const urls = await  Url.find({}).lean()
-    res.render("home", { urls: urls });
+    const urls = await Url.find({}).lean()
+    res.render("home", {urls: urls});
 })
 
 router.get("/about", (req, res) => {
@@ -11,8 +12,28 @@ router.get("/about", (req, res) => {
 })
 
 router.get("/signup", (req, res) => {
-    res.render("signup");
+    res.render("signup", {
+        dummy:
+            {
+                first_name: "Nakul",
+                last_name: "Pant",
+                password: "abc123",
+                gender: "Male",
+                job_title: "CEO",
+            },
+    });
 })
+
+router.post("/signupUser", async (req, res) => {
+    const body = req.body;
+    if (!body || !body.first_name || !body.last_name || !body.gender || !body.email || !body.job_title) {
+        res.render("signup", {msg: {error: "User Not Created Successfully! Required Fields Missing!"}});
+    } else{
+        const user = await User.create(body);
+        res.render("signup", {msg: {success: "User Created Successfully!!!"}});
+    }
+    })
+
 
 router.get("/login", (req, res) => {
     res.render("login");

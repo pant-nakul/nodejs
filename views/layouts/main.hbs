@@ -11,7 +11,20 @@
     <title>Node App</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .alert {
+            opacity: 1;
+            transition: opacity 0.5s linear;
+            animation: fadeOut 3s ease-in-out 3s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
         }
     </style>
 </head>
@@ -50,6 +63,32 @@
 <!-- Begin page content -->
 <main class="flex-shrink-0" >
     <div class="container">
+        <div class="mt-5 mb-5">
+            {{#if msg.success}}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{msg.success}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/if}}
+            {{#if msg.error}}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{msg.error}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/if}}
+            {{#if msg.info}}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{msg.info}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/if}}
+            {{#if msg.warning}}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{msg.info}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {{/if}}
+        </div>
         {{{body}}}
     </div>
 </main>
