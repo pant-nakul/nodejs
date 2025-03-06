@@ -9,6 +9,7 @@ const { resolvers } = require("./graphql/resolvers");
 const connectMongoDB = require("./config/mongodb"); // ✅ Import MongoDB Configuration
 const {logRequests} = require("./middlewares")
 const app = express();
+const exphbs = require("express-handlebars");
 const Url = require("./models/Url");
 
 require("dotenv").config({
@@ -24,7 +25,13 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(logRequests("app.log") );
 app.use(express.json() );
-app.set("view engine", "ejs");
+// Configure Handlebars as the templating engine
+app.engine("hbs", exphbs.engine({
+    extname: ".hbs",
+    defaultLayout: "main",
+    layoutsDir: "views/layouts"
+})); // Use .hbs files
+app.set("view engine", "hbs");
 app.set("views", path.resolve( "./views"));
 
 // App Routes
