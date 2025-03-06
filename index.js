@@ -13,7 +13,7 @@ const exphbs = require("express-handlebars");
 const Url = require("./models/Url");
 const hbsHelpers = require("./views/hbsHelpers");
 const cookieParser = require("cookie-parser");
-const {restrictToLoggedInUsersOnly} = require("./middlewares/auth");
+
 
 require("dotenv").config({
     path: `.env.${process.env.NODE_ENV || "dev"}`,
@@ -40,7 +40,8 @@ app.set("view engine", "hbs");
 app.set("views", path.resolve( "./views"));
 
 // App Routes
-app.use("/", require("./routes/global"));
+
+app.use("/",  require("./routes/global"));
 app.use("/api", require("./routes"));
 
 app.get("/:shortId", async (req, res) => {
