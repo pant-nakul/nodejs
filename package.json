@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "apollo-server-express": "^3.13.0",
+    "bootstrap": "^5.3.3",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
