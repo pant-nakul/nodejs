@@ -1,7 +1,8 @@
 const router = require("express").Router();
+const Url = require("../../models/Url");
 
-router.get("/", (req, res) => {
-    res.send("Hello from Express Homepage")
+router.get("/", async (req, res) => {
+    res.send("APP  - SERVER HOMEPAGE ");
 })
 
 router.get("/about", (req, res) => {

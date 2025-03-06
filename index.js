@@ -20,12 +20,15 @@ app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(logRequests("app.log") );
 app.use(express.json() );
+app.set("view engine", "ejs");
+app.set("views", path.resolve( "./views"));
 
 // App Routes
 app.use("/", require("./routes/global"));
 app.use("/api", require("./routes"));
 
 app.get("/:shortId", async (req, res) => {
+    console.log(req.params.shortId);
     const shortId = req.params.shortId;
     const url = await Url.findOneAndUpdate({shortId},
         {$push: {visitHistory : {timestamp : Date.now()}}});
