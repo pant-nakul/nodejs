@@ -9,9 +9,13 @@ const { resolvers } = require("./graphql/resolvers");
 const connectMongoDB = require("./config/mongodb"); // ✅ Import MongoDB Configuration
 const {logRequests} = require("./middlewares")
 const app = express();
-const port = 8000;
 const Url = require("./models/Url");
 
+require("dotenv").config({
+    path: `.env.${process.env.NODE_ENV || "dev"}`,
+});
+
+const port = process.env.PORT || 3000;
 // Connect to MongoDB
 connectMongoDB(); // ✅ Call MongoDB connection function
 
