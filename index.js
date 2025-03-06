@@ -11,6 +11,7 @@ const {logRequests} = require("./middlewares")
 const app = express();
 const exphbs = require("express-handlebars");
 const Url = require("./models/Url");
+const hbsHelpers = require("./views/hbsHelpers");
 
 require("dotenv").config({
     path: `.env.${process.env.NODE_ENV || "dev"}`,
@@ -22,14 +23,15 @@ connectMongoDB(); // ✅ Call MongoDB connection function
 
 // Middleware
 app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logRequests("app.log") );
-app.use(express.json() );
 // Configure Handlebars as the templating engine
 app.engine("hbs", exphbs.engine({
     extname: ".hbs",
     defaultLayout: "main",
-    layoutsDir: "views/layouts"
+    layoutsDir: "views/layouts",
+    helpers: hbsHelpers
 })); // Use .hbs files
 app.set("view engine", "hbs");
 app.set("views", path.resolve( "./views"));
@@ -43,7 +45,7 @@ app.get("/:shortId", async (req, res) => {
     const shortId = req.params.shortId;
     const url = await Url.findOneAndUpdate({shortId},
         {$push: {visitHistory : {timestamp : Date.now()}}});
-    res.redirect(url.redirectUrl);
+    url?.redirectUrl ? res.redirect(url.redirectUrl) : res.status(404).end("URL Not Found");
 })
 
 // Initialize Apollo Server

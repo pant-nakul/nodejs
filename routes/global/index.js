@@ -2,7 +2,8 @@ const router = require("express").Router();
 const Url = require("../../models/Url");
 
 router.get("/", async (req, res) => {
-    res.render("home", { name: "Nakul" });
+    const urls = await  Url.find({}).lean()
+    res.render("home", { urls: urls });
 })
 
 router.get("/about", (req, res) => {

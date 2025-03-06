@@ -1,8 +1,11 @@
 const {nanoid} = require('nanoid');
 const Url = require('../models/Url');
+const url = require("node:url");
 
 const generateNewShortUrl = async (req, res) => {
     const body = req.body;
+    console.log(req.body);
+    console.log(req);
     if(!body || !body.url){
         return res.status(400).send({status: "ERROR", message: 'Url is Required' });
     }
@@ -13,7 +16,7 @@ const generateNewShortUrl = async (req, res) => {
         redirectUrl: body?.url,
         visitHistory :[]
     });
-    res.status(200).send({id: shortId});
+    res.redirect("/");
 }
 
 

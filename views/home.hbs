@@ -1,1 +1,20 @@
-<h1>Welcome, {{name}}, Hello to Homepage!</h1>
+<div style="text-align: center">
+    <h1>Url Shortener</h1>
+    <form method="POST" action="/api/url" enctype="application/x-www-form-urlencoded">
+        <label for="url">Enter your original URL</label>
+        <input type="text" name="url" id="url" placeholder="original url"></input>
+        <input type="submit" value="Shorten"></input>
+    </form>
+    <br/>
+    <br/>
+    <br/>
+    <div style="text-align: center">
+        <h2>Shortened URL's</h2>
+        <ul>
+            {{#each urls}}
+                <li><b>{{inc @index}}</b> -  <a href="http://localhost:8000/{{shortId}}">{{shortId}}</a>  ||| <b>{{visitHistory.length}}</b> ||| {{redirectUrl}}</li>
+            {{/each}}
+        </ul>
+    </div>
+
+</div>
