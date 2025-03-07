@@ -1,14 +1,14 @@
 const router = require("express").Router();
-const {restrictToLoggedInUsersOnly} = require("../../middlewares/auth");
+const {checkForAuthenticationCookie, checkForAuthentication} = require("../../middlewares/auth");
 const {
     generateNewShortUrl,
     getAnalyticsForShortId
 } = require("../../controllers/url");
 
 router.route("/")
-    .post(restrictToLoggedInUsersOnly,generateNewShortUrl);
+    .post(checkForAuthenticationCookie,generateNewShortUrl);
 router.route("/analytics/:shortId")
-    .get(restrictToLoggedInUsersOnly,getAnalyticsForShortId)
+    .get(checkForAuthenticationCookie,getAnalyticsForShortId)
 
 /*router.route("/:id")
     .get(handleGetUser)

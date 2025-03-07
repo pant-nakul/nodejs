@@ -3,9 +3,9 @@ const Url = require("../../models/Url");
 const User = require("../../models/User");
 const {v4: uuidv4} = require("uuid");
 const{setUser,getUser} = require("../../services/auth")
-const {restrictToLoggedInUsersOnly} = require("../../middlewares/auth");
+const {checkForAuthentication, checkForAuthenticationCookie} = require("../../middlewares/auth");
 
-router.get("/",restrictToLoggedInUsersOnly, async (req, res) => {
+router.get("/",checkForAuthenticationCookie, async (req, res) => {
     const urls = await Url.find({}).lean()
     res.render("home", {urls: urls});
 });
